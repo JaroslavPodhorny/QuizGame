@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2628ba;
+  --color-accent: #ffcc00;
+  --color-success: #00b300;
+  --color-warning: #ffcc00;
+
+  --font-family-main: "Archivo", sans-serif;
+  --font-family-black: "Archivo Black", sans-serif;
+}
+
+body {
+  background-color: black;
+  caret-color: transparent;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
