@@ -30,11 +30,11 @@ function App() {
             path="/my-quizzes"
             element={<div className="text-white">To be implemented</div>}
           />
-          <Route path="/create-quiz" element={<CreateQuiz />} />
+          <Route path="/create-quiz/:quizId" element={<CreateQuiz />} />
         </Routes>
 
         <Popup isOpen={isPopupOpen} onClose={handleClosePopup}>
-          <QuizPopup onCreateClick={handleClosePopup} />
+          <QuizPopup onCreated={handleClosePopup} />
         </Popup>
       </Router>
     </>

@@ -6,10 +6,15 @@ import type { Swiper as SwiperType } from "swiper";
 import "swiper/swiper-bundle.css";
 import AddQuestion from "./AddQuestion";
 import NavButton from "./NavButton";
+import { db } from "../../firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function CreateQuiz() {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [title, setTitle] = useState<string[]>([]);
   const [questions, setQuestions] = useState<number[]>([0]);
 
   const totalQuestions = questions.length;
@@ -23,8 +28,32 @@ export default function CreateQuiz() {
     });
   };
 
+  const { quizId } = useParams();
+
+  useEffect(() => {
+    if (!quizId) return;
+
+    const fetchTitle = async () => {
+      const snapshot = await getDocs(collection(db, "quizzes"));
+      const match = snapshot.docs.find((d) => d.id === quizId);
+      if (match) {
+        const data = match.data() as { title?: string };
+        const t = data.title;
+
+        setTitle(t ? [t] : ["Untitled Quiz"]);
+        if (t) document.title = t;
+      }
+    };
+
+    fetchTitle();
+  }, [quizId]);
+
   return (
     <div className="mt-16 sm:mt-20 md:mt-25 w-full max-w-[1400px] mx-auto px-3 sm:px-5 md:px-10 relative">
+      <h1 className="text-2xl text-red-500 sm:text-3xl md:text-4xl font-bold mb-6">
+        {title[0]}
+      </h1>
+
       {/* tablet+ dots*/}
       <div className="hidden  sm:flex absolute left-4 sm:left-6 md:left-10 top-[50vh] -translate-y-1/2 flex-col items-center gap-2 md:gap-3 z-10 max-h-[60vh] overflow-y-auto ">
         {Array.from({ length: totalQuestions }).map((_, i) => (
