@@ -34,7 +34,7 @@ export default function QuizScroll({ handleScroll }: Props) {
           <Thumbnail />
         </div>
       </div>
-      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-64 bg-linear-to-t from-black to-transparent"></div>
+      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 bg-linear-to-t from-black to-transparent"></div>
     </div>
   );
 }

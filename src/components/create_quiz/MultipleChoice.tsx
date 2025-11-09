@@ -1,43 +1,59 @@
+import { useState, useEffect } from "react";
 import MultipleChButton from "./MultipleChButton";
 
 interface Props {
   onAnswersChange: (answers: string[]) => void;
   answers: string[];
+  onCurrentIndexChange?: (index: number) => void;
 }
 
-export default function MultipleChoice({ onAnswersChange, answers }: Props) {
+export default function MultipleChoice({
+  onAnswersChange,
+  answers,
+  onCurrentIndexChange,
+}: Props) {
   const updateAnswer = (index: number) => (value: string) => {
     const next = [...answers];
     next[index] = value;
     onAnswersChange(next);
   };
 
+  const [correctIndex, setCorrectIndex] = useState<number>(0);
+
+  useEffect(() => {
+    onCurrentIndexChange?.(correctIndex);
+  }, [correctIndex]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <MultipleChButton
-        color="bg-red-600"
-        placeholder="Option 1"
+        index={0}
         onChange={updateAnswer(0)}
         value={answers[0]}
         autoFocus
+        correct={correctIndex === 0}
+        setCorrect={() => setCorrectIndex(0)}
       />
       <MultipleChButton
-        color="bg-primary"
-        placeholder="Option 2"
+        index={1}
         onChange={updateAnswer(1)}
         value={answers[1]}
+        correct={correctIndex === 1}
+        setCorrect={() => setCorrectIndex(1)}
       />
       <MultipleChButton
-        color="bg-green-600"
-        placeholder="Option 3"
+        index={2}
         onChange={updateAnswer(2)}
         value={answers[2]}
+        correct={correctIndex === 2}
+        setCorrect={() => setCorrectIndex(2)}
       />
       <MultipleChButton
-        color="bg-yellow-600"
-        placeholder="Option 4"
+        index={3}
         onChange={updateAnswer(3)}
         value={answers[3]}
+        correct={correctIndex === 3}
+        setCorrect={() => setCorrectIndex(3)}
       />
     </div>
   );

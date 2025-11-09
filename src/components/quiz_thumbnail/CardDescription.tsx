@@ -1,23 +1,48 @@
 import Watch from "../../assets/Watch.svg";
 import User from "../../assets/user.png";
 
-export default function CardDescription() {
+interface Props {
+  title: string;
+  duration: string;
+  author: string;
+  timeAgo: string;
+}
+
+export default function CardDescription({
+  title,
+  duration,
+  author,
+  timeAgo,
+}: Props) {
   return (
-    <div className="absolute bottom-0 w-full backdrop-blur-md bg-primary/80 hover:bg-primary text-white rounded-b-4xl rounded-t-2xl py-3 md:py-4 px-4 sm:px-6 md:px-12">
+    <div className="absolute bottom-0 w-full backdrop-blur-md bg-primary/80 group-hover:bg-primary transition-colors duration-300 text-white rounded-b-4xl rounded-t-2xl py-3 md:py-4 px-4 sm:px-6 md:px-12">
       <h1 className="font-bold text-base sm:text-lg md:text-xl leading-tight truncate ">
-        The Roman Empire
+        {title}
       </h1>
-      <CardInfo />
-      <CardCreator />
+      <CardInfo duration={duration} timeAgo={timeAgo} />
+      <CardCreator author={author} />
     </div>
   );
 }
 
-function CardCreator() {
+interface CardCreatorProps {
+  author: string;
+}
+
+function CardCreator({ author }: CardCreatorProps) {
+  const MAX_AUTHOR_LENGTH = 11;
+  const displayAuthor =
+    author.length > MAX_AUTHOR_LENGTH
+      ? author.slice(0, MAX_AUTHOR_LENGTH) + "…"
+      : author;
+
   return (
     <div className="flex items-center justify-end mt-1">
-      <span className="mr-2 max-w-[60%] truncate text-xs sm:text-sm md:text-base">
-        Jaroslav Po..
+      <span
+        className="mr-2 max-w-[60%] truncate text-xs sm:text-sm md:text-base"
+        title={author}
+      >
+        {displayAuthor}
       </span>
       <img
         src={User}
@@ -28,7 +53,12 @@ function CardCreator() {
   );
 }
 
-function CardInfo() {
+interface CardInfoProps {
+  duration: string;
+  timeAgo: string;
+}
+
+function CardInfo({ duration, timeAgo }: CardInfoProps) {
   return (
     <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base">
       <div className="flex items-center gap-1.5 sm:gap-2">
@@ -37,9 +67,9 @@ function CardInfo() {
           alt="Watch Icon"
           className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 -m-1 sm:-m-1.5 mb-0.5"
         />
-        <span>27 min</span>
+        <span>{duration}</span>
       </div>
-      <span>2 days ago</span>
+      <span>{timeAgo}</span>
     </div>
   );
 }

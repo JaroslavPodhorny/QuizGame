@@ -1,38 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { OptionSelector } from "./OptionSelector";
-import QuestionType from "./QuestionType";
-import React from "react";
 
-export default function QuestionForm() {
-  const [type, setType] = useState("Multiple choice");
+//question types components
+import FillInTheBlank from "./FillInTheBlank";
+import TrueFalse from "./TrueFalse";
+import MultipleChoice from "./MultipleChoice";
 
-  const onTypeChange = (newType: string) => {
-    setType(newType);
-  };
+interface Props {
+  onAnswersChange: (any: any[]) => void;
+  [key: string]: any;
+  onTitleChange: (title: string) => void;
+  onTypeChange: (type: string) => void;
+  onCorrectIndexChange?: (index: number) => void;
+  type: string;
+}
 
+export default function QuestionForm({
+  onAnswersChange: useAnswers,
+  onTitleChange,
+  onTypeChange,
+  onCorrectIndexChange: useCorrectAnswerIndex,
+  type,
+}: Props) {
   const [answers, setAnswers] = useState<any[]>(["", "", "", ""]);
 
-  React.useEffect(() => {
-    switch (type) {
-      case "Multiple choice":
-        setAnswers(["", "", "", ""]);
-        break;
-      case "True/False":
-        setAnswers([false]);
-        break;
-      case "Pinpoint":
-        setAnswers([]);
-        break;
-      case "Fill in the blank":
-        setAnswers([""]);
-        break;
-      default:
-        setAnswers([]);
-        break;
-    }
-  }, [type]);
+  useEffect(() => {
+    useAnswers(answers);
+  }, [answers]);
 
-  console.log("Current answers state:", answers);
+  // console.log("Current answers state:", answers);
 
   return (
     <div className="my-3 sm:my-4 md:my-6 font-regular">
@@ -41,6 +37,7 @@ export default function QuestionForm() {
           type="text"
           placeholder="Enter question..."
           className="bg-white text-black text-lg sm:text-xl md:text-2xl p-2 sm:p-2.5 md:p-3 rounded w-full caret-black"
+          onChange={(e) => onTitleChange(e.target.value)}
         />
         <OptionSelector
           options={[
@@ -51,7 +48,31 @@ export default function QuestionForm() {
           ]}
           onSelect={onTypeChange}
         />
-        <QuestionType type={type} answers={answers} setAnswers={setAnswers} />
+
+        {type === "Multiple choice" && (
+          <MultipleChoice
+            onAnswersChange={setAnswers}
+            answers={answers}
+            onCurrentIndexChange={useCorrectAnswerIndex}
+          />
+        )}
+        {type === "True/False" && (
+          <TrueFalse
+            answers={(answers as unknown as boolean[]) ?? [false]}
+            onAnswersChange={(a) => setAnswers(a as unknown as any[])}
+          />
+        )}
+        {type === "Pinpoint" && (
+          <div className="text-white text-base sm:text-lg">
+            Pinpoint Question
+          </div>
+        )}
+        {type === "Fill in the blank" && (
+          <FillInTheBlank
+            answers={(answers as unknown as string[]) ?? [""]}
+            onAnswersChange={(a) => setAnswers(a as unknown as any[])}
+          />
+        )}
       </div>
     </div>
   );

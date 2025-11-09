@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { collection, addDoc, getDocs } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../firebase/firebaseConfig";
 
 export default function FirebaseTest() {
   const [data, setData] = useState<string[]>([]);

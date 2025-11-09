@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../firebase/firebaseConfig";
 import { useState } from "react";
+import { getAuth } from "firebase/auth"; // Import getAuth
 
-function onCreateClick(title: string, description: string) {
+function onCreateClick(title: string, description: string, userId: string) {
   return addDoc(collection(db, "quizzes"), {
-    title,
-    description,
+    title: title,
+    description: description,
+    createdBy: userId,
   });
 }
 
@@ -18,6 +20,8 @@ export default function QuizPopup({ onCreated }: QuizPopupProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   return (
     <form>
@@ -43,9 +47,13 @@ export default function QuizPopup({ onCreated }: QuizPopupProps) {
         <button
           type="button"
           onClick={async () => {
-            const docRef = await onCreateClick(title, description);
+            //if (user) {
             onCreated?.();
+            const docRef = await onCreateClick(title, description, "guest"); // user.uid zatím guest
             navigate(`/create-quiz/${docRef.id}`);
+            //} else {
+            //  console.error("User is not authenticated");
+            //}
           }}
           className="bg-primary text-white font-black text-2xl w-1/2 rounded-3xl py-3 hover:scale-105 transition-transform duration-200 flex justify-center"
         >
