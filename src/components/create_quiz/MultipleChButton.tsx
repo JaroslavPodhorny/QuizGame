@@ -8,8 +8,8 @@ interface Props {
 }
 
 function GetColor(index: number) {
-  const colors = ["bg-red-600", "bg-green-600", "bg-primary", "bg-yellow-600"];
-  return colors[index % colors.length]; // když je index větší než počet barev, tak se to začne opakovat
+  const colors = ["#A22121", "#A38300", "#2628BA", "#177328"];
+  return colors[index % colors.length];
 }
 
 function GetPlaceholder(index: number) {
@@ -27,15 +27,14 @@ export default function MultipleChButton({
 }: Props) {
   return (
     <div
-      className={`group flex bg-gray-800 rounded-2xl overflow-hidden caret-white text-sm ${
+      className={`group flex bg-gray-800 rounded-xl overflow-hidden caret-white text-sm ${
         index !== undefined ? GetColor(index) : ""
       } transition-colors duration-300 focus-within:ring-2 focus-within:ring-blue-500/40`}
     >
       <input
         type="text"
-        className={`bg-transparent outline-none caret-white px-3 py-6 md:py-10 flex-1 ${
-          index !== undefined ? GetColor(index) : "bg-red-600"
-        } transition-colors duration-300 placeholder:text-gray-400 focus:placeholder:text-gray-500`}
+        className={`bg-transparent outline-none caret-white px-3 py-6 md:py-10 flex-1 transition-colors duration-300 placeholder:text-gray-200 text-xl placeholder:italic focus:placeholder:text-transparent`}
+        style={index !== undefined ? { backgroundColor: GetColor(index) } : {}}
         placeholder={index !== undefined ? GetPlaceholder(index) : "option"}
         autoFocus={autoFocus}
         value={value}
@@ -47,7 +46,7 @@ export default function MultipleChButton({
         ${
           correct
             ? "bg-success w-24 pointer-events-none"
-            : "bg-red-900 w-12 hover:bg-red-800 active:scale-95"
+            : "bg-warning w-12 hover:bg-warning/90 active:scale-95"
         }
       `}
         onClick={!correct ? () => setCorrect() : undefined}

@@ -21,7 +21,7 @@ export default function Header({ onCreateQuizClick }: HeaderProps) {
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-10 flex justify-between items-center">
-        <div className="flex place-items-center">
+        <div className="flex items-center">
           <Logo />
           <Links
             handleClick={() => handleClick()}

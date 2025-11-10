@@ -7,7 +7,7 @@ import Popup from "./components/Popup";
 import { useState } from "react";
 import QuizPopup from "./components/QuizPopup";
 import { AuthProvider } from "./contexts/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
+//import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

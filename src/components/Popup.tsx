@@ -21,14 +21,14 @@ export default function Popup({ isOpen, onClose, children }: PopupProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center text-white caret-white"
       onClick={onClose}
     >
       <div className="absolute inset-0 backdrop-blur-sm transition-opacity duration-300 bg-black/30" />
 
       <div
         ref={popupRef}
-        className="relative z-10 text-black bg-white rounded-3xl shadow-xl max-w-2xl w-full mx-4 transition-all duration-300 opacity-0 scale-95"
+        className="relative z-10 bg-neutral-900 rounded-3xl shadow-xl max-w-2xl w-full mx-4 transition-all duration-300 opacity-0 scale-95"
         onClick={(e) => e.stopPropagation()}
       >
         <button

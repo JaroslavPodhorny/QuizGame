@@ -1,4 +1,4 @@
-import Search from "./Search.tsx";
+import Filter from "./Filter.tsx";
 import QuizScroll from "./QuizScroll.tsx";
 import { useState } from "react";
 import DisappearingText from "../DisappearingText.tsx";
@@ -8,7 +8,7 @@ export default function SearchSection() {
   return (
     <>
       <DisappearingText isVisible={scrollMode} />
-      <Search
+      <Filter
         handleChange={() => {
           setScrollMode(true);
         }}

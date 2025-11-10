@@ -31,12 +31,12 @@ export default function QuestionForm({
   // console.log("Current answers state:", answers);
 
   return (
-    <div className="my-3 sm:my-4 md:my-6 font-regular">
-      <div className="text-white flex flex-col gap-4 sm:gap-5 md:gap-6 max-w-4xl w-full mx-auto p-4 sm:p-5 md:p-6 bg-gray-900 rounded-xl sm:rounded-2xl">
+    <div className="my-3 md:my-6 font-regular">
+      <div className="text-white flex flex-col gap-4 md:gap-6 max-w-4xl w-full mx-auto p-4 md:p-6 bg-neutral-900 rounded-3xl">
         <input
           type="text"
           placeholder="Enter question..."
-          className="bg-white text-black text-lg sm:text-xl md:text-2xl p-2 sm:p-2.5 md:p-3 rounded w-full caret-black"
+          className="bg-white text-black text-lg sm:text-xl md:text-2xl p-2 sm:p-2.5 md:p-3 rounded-xl w-full caret-black"
           onChange={(e) => onTitleChange(e.target.value)}
         />
         <OptionSelector
@@ -47,6 +47,7 @@ export default function QuestionForm({
             "Pinpoint",
           ]}
           onSelect={onTypeChange}
+          selectedOption={type}
         />
 
         {type === "Multiple choice" && (
