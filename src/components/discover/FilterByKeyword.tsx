@@ -21,10 +21,9 @@ export default function FilterByKeyword({
   expanded = false,
 }: Props) {
   return (
-    <div className="flex mb-2 items-center space-x-4 lg:space-x-6">
-      <ul className="flex space-x-4 lg:space-x-6 text-lg">
+    <div className="flex mb-2 items-center space-x-4 lg:space-x-6 text-sm">
+      <ul className="flex space-x-4 lg:space-x-6">
         {keywords.map((keyword, i) => {
-          // show first 3 on mobile, first 5 on md, rest visible from lg up
           const visibilityClass =
             i < 3 ? "inline-flex" : i < 6 ? "hidden xl:inline-flex " : "hidden";
 

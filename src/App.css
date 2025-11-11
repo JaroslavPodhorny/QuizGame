@@ -16,6 +16,7 @@ body {
   background-color: black;
   caret-color: transparent;
   margin: 0;
+  font-family: var(--font-family-main);
 }
 
 button {

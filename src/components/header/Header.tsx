@@ -20,7 +20,7 @@ export default function Header({ onCreateQuizClick }: HeaderProps) {
         isExpanded ? "h-[50%] md:h-64" : "md:h-25 h-20"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-10 flex justify-between items-center">
+      <div className="max-w-[1400px] mx-auto px-5 md:px-10 flex justify-between items-center">
         <div className="flex items-center">
           <Logo />
           <Links

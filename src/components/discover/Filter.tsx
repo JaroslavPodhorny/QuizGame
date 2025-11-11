@@ -8,7 +8,7 @@ type SearchProps = {
 export default function Filter({ handleChange }: SearchProps) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="lg:flex lg:items-center lg:justify-between mb-2  z-10">
+    <div className="lg:flex lg:items-center lg:justify-between mb-2  text-white z-10">
       <div className="flex items-center mb-3 flex-1">
         <input
           type="text"
