@@ -1,5 +1,6 @@
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import type { Quiz} from "../types/quiz";
 
 async function saveQuiz(quizId: string | undefined, quizData: any): Promise<boolean> {
     if (!quizId) return false;
@@ -13,11 +14,11 @@ async function saveQuiz(quizId: string | undefined, quizData: any): Promise<bool
     }
 }
 
-async function getQuiz(quizId: string) {
+async function getQuiz(quizId: string) : Promise<Quiz | null> {
     const ref = doc(collection(db, "quizzes"), quizId);
     const snapshot = await getDoc(ref);
     if (snapshot.exists()) {
-        return snapshot.data();
+        return snapshot.data() as Quiz;
     } else {
         console.log("Quiz not found");
         return null;

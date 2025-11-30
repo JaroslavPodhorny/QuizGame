@@ -8,6 +8,7 @@ import { useState } from "react";
 import QuizPopup from "./components/QuizPopup";
 import { AuthProvider } from "./contexts/AuthContext";
 //import ProtectedRoute from "./components/ProtectedRoute";
+import QuizInfo from "./components/quiz_info/QuizInfo";
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -24,16 +25,18 @@ function App() {
     <AuthProvider>
       <Router>
         <Header onCreateQuizClick={handleCreateQuizClick} />
-
-        <Routes>
-          <Route path="/" element={<Discover />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route
-            path="/my-quizzes"
-            element={<div className="text-white mt-25">To be implemented</div>}
-          />
-          <Route path="/create-quiz/:quizId" element={<QuizForm />} />
-        </Routes>
+        <div className="pt-20 md:pt-25">
+          <Routes>
+            <Route path="/" element={<Discover />} />
+            <Route path="/discover" element={<Discover />} />
+            <Route
+              path="/my-quizzes"
+              element={<div className="text-white">To be implemented</div>}
+            />
+            <Route path="/create-quiz/:quizId" element={<QuizForm />} />
+            <Route path="/:quizId" element={<QuizInfo />} />
+          </Routes>
+        </div>
 
         <Popup isOpen={isPopupOpen} onClose={handleClosePopup}>
           <QuizPopup onCreated={handleClosePopup} />

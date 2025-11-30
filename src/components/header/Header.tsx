@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import Links from "./Links";
 import SignUp from "./SignUp";
 import Logo from "./Logo";
@@ -9,6 +9,7 @@ interface HeaderProps {
 
 export default function Header({ onCreateQuizClick }: HeaderProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
 
   const handleClick = () => {
     setIsExpanded(!isExpanded);
@@ -16,9 +17,11 @@ export default function Header({ onCreateQuizClick }: HeaderProps) {
 
   return (
     <header
+      ref={headerRef}
       className={`bg-primary text-white mx-auto  fixed top-0 left-0 right-0 w-full z-20 transition-all duration-300 ${
         isExpanded ? "h-[50%] md:h-64" : "md:h-25 h-20"
       }`}
+      aria-label="main header"
     >
       <div className="max-w-[1400px] mx-auto px-5 md:px-10 flex justify-between items-center">
         <div className="flex items-center">

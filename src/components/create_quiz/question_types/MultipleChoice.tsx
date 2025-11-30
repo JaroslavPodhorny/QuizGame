@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import MultipleChButton from "./MultipleChButton";
+import MultipleChButton from "../MultipleChButton";
 
 interface Props {
   onAnswersChange: (answers: string[]) => void;
@@ -12,6 +12,7 @@ export default function MultipleChoice({
   answers,
   onCurrentIndexChange,
 }: Props) {
+  // updates specific answer based on index
   const updateAnswer = (index: number) => (value: string) => {
     const next = [...answers];
     next[index] = value;

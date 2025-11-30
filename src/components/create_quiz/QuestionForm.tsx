@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import { OptionSelector } from "./OptionSelector";
+import type { QuestionType } from "../../types/quiz";
 
 //question types components
-import FillInTheBlank from "./FillInTheBlank";
-import TrueFalse from "./TrueFalse";
-import MultipleChoice from "./MultipleChoice";
+import FillInTheBlank from "./question_types/FillInTheBlank";
+import TrueFalse from "./question_types/TrueFalse";
+import MultipleChoice from "./question_types/MultipleChoice";
 
 interface Props {
   onAnswersChange: (any: any[]) => void;
   [key: string]: any;
   onTitleChange: (title: string) => void;
-  onTypeChange: (type: string) => void;
+  onTypeChange: (type: QuestionType) => void;
   onCorrectIndexChange?: (index: number) => void;
-  type: string;
+  type: QuestionType;
 }
 
 export default function QuestionForm({

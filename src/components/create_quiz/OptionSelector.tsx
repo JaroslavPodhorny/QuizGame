@@ -1,13 +1,15 @@
 //vytvořeno pomocí AI
 
+import type { QuestionType } from "../../types/quiz";
+
 interface OptionSelectorProps {
-  options?: string[];
-  onSelect?: (option: string) => void;
-  selectedOption?: string;
+  options?: QuestionType[];
+  onSelect?: (option: QuestionType) => void;
+  selectedOption?: QuestionType;
 }
 
 export const OptionSelector: React.FC<OptionSelectorProps> = ({
-  options = ["Option 1", "Option 2", "Option 3"],
+  options = ["Multiple choice", "True/False", "Fill in the blank", "Pinpoint"],
   onSelect,
   selectedOption,
 }) => {

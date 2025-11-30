@@ -1,69 +1,46 @@
 //react
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import type { Question, QuestionType } from "../../types/quiz";
+import { createEmptyQuestion } from "../../types/quiz";
+
 //components
-import QuestionForm from "./QuestionForm";
-import AddQuestion from "./AddQuestion";
-import ProgressDots from "./ProgressDots";
-import NavButtons from "./NavButtons";
+import ProgressDots from "./swiper_components/ProgressDots";
+import NavButtons from "./swiper_components/NavButtons";
 
 //swiper
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Keyboard, Mousewheel } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
-import "swiper/swiper-bundle.css";
+import QuestionSwiper from "./swiper_components/QuestionSwiper";
 
-//firebase
-import { saveQuiz } from "../../firebase_services/QuizStore";
 import SaveButton from "./SaveButton";
 
-interface Question {
-  title: string;
-  type: string;
-  answers: any[];
-  correctAnswerIndex: number;
-}
-
 export default function QuizForm() {
+  //quiz id from url
   const { quizId } = useParams();
+
+  //swiper state
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const [quizData, setQuizData] = useState<{ questions: Question[] }>({
-    questions: [
-      {
-        title: "",
-        type: "Multiple choice",
-        answers: [],
-        correctAnswerIndex: 0,
-      },
-    ],
+  //main data
+  const [questions, setQuestions] = useState<{ questions: Question[] }>({
+    questions: [createEmptyQuestion()],
   });
 
-  const totalQuestions = quizData.questions.length;
+  //swiper helpers
+  const totalQuestions = questions.questions.length;
   const totalSlides = totalQuestions + 1;
 
   const addQuestion = () => {
-    setQuizData((prev) => ({
-      questions: [
-        ...prev.questions,
-        {
-          title: "",
-          type: "Multiple choice",
-          answers: [],
-          correctAnswerIndex: 0,
-        },
-      ],
+    setQuestions((prev) => ({
+      questions: [...prev.questions, createEmptyQuestion()],
     }));
     setTimeout(() => swiper?.slideTo(totalQuestions), 0);
-
-    //prozatimní uložení
-    saveQuiz(quizId, quizData);
   };
 
   const updateQuestion = (index: number, field: keyof Question, value: any) => {
-    setQuizData((prev) => ({
+    setQuestions((prev) => ({
       questions: prev.questions.map((q, i) =>
         i === index ? { ...q, [field]: value } : q
       ),
@@ -85,48 +62,25 @@ export default function QuizForm() {
       />
 
       <div className="mt-6 sm:mt-12 md:mt-20 max-w-4xl w-full mx-auto">
-        <Swiper
-          direction="vertical"
-          slidesPerView={1}
-          speed={200}
-          mousewheel={{
-            forceToAxis: true,
-            sensitivity: 1,
-          }}
-          keyboard={{
-            enabled: true,
-          }}
-          modules={[Keyboard, Mousewheel]}
+        <QuestionSwiper
+          questions={questions.questions}
           onSwiper={setSwiper}
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          onSlideChange={(i) => setActiveIndex(i)}
+          onAnswersChange={(i, answers) =>
+            updateQuestion(i, "answers", answers)
+          }
+          onTitleChange={(i, title) => updateQuestion(i, "title", title)}
+          onTypeChange={(i, type: QuestionType) =>
+            updateQuestion(i, "type", type)
+          }
+          onCorrectIndexChange={(i, correctIndex) =>
+            updateQuestion(i, "correctAnswerIndex", correctIndex)
+          }
+          addQuestion={addQuestion}
           className="h-[75vh] sm:h-[70vh] md:h-[70vh]"
-        >
-          {quizData.questions.map((question, index) => (
-            <SwiperSlide key={index}>
-              <QuestionForm
-                onAnswersChange={(answers: any[]) =>
-                  updateQuestion(index, "answers", answers)
-                }
-                onTitleChange={(title: string) =>
-                  updateQuestion(index, "title", title)
-                }
-                onTypeChange={(type: string) =>
-                  updateQuestion(index, "type", type)
-                }
-                onCorrectIndexChange={(correctIndex: number) =>
-                  updateQuestion(index, "correctAnswerIndex", correctIndex)
-                }
-                type={question.type}
-              />
-            </SwiperSlide>
-          ))}
+        />
 
-          <SwiperSlide key="add-new">
-            <AddQuestion addQuestion={addQuestion} />
-          </SwiperSlide>
-        </Swiper>
-
-        <SaveButton quizId={quizId} quizData={quizData} />
+        <SaveButton quizId={quizId} quizData={questions} />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { saveQuiz } from "../../firebase_services/QuizStore";
 import LoadingSpinner from "../LoadingSpinner";
 
 interface Props {
-  quizId: string | undefined;
+  quizId?: string;
   quizData: { questions: any[] };
 }
 

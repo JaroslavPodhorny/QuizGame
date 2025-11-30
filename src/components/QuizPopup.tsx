@@ -1,16 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import { createEmptyQuiz } from "../types/quiz";
 //import { getAuth } from "firebase/auth"; // Import getAuth
 
-function onCreateClick(title: string, description: string, userId: string) {
-  return addDoc(collection(db, "quizzes"), {
-    title: title,
-    description: description,
-    createdBy: userId,
-  });
+function onCreateClick() {
+  return doc(collection(db, "quizzes"));
 }
 
 interface QuizPopupProps {
@@ -52,7 +49,14 @@ export default function QuizPopup({ onCreated }: QuizPopupProps) {
             try {
               setLoading(true);
 
-              const docRef = await onCreateClick(title, description, "guest"); // user.uid zatím guest
+              const docRef = onCreateClick(); // create new doc reference
+              const newQuiz = createEmptyQuiz(
+                docRef.id,
+                title.trim() || undefined,
+                description.trim() || undefined
+              );
+              await setDoc(docRef, newQuiz);
+
               onCreated?.();
               navigate(`/create-quiz/${docRef.id}`);
             } catch (err) {
