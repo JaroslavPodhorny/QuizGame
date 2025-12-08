@@ -1,9 +1,9 @@
 //react
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import type { Question, QuestionType } from "../../types/quiz";
-import { createEmptyQuestion } from "../../types/quiz";
+import type { Question, QuestionType } from "../../types/quizBlueprint";
+import { createEmptyQuestion } from "../../types/quizBlueprint";
 
 //components
 import ProgressDots from "./swiper_components/ProgressDots";

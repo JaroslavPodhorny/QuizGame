@@ -6,7 +6,7 @@ import "swiper/swiper-bundle.css";
 import QuestionForm from "../QuestionForm";
 import AddQuestion from "../AddQuestion";
 
-import type { Question, QuestionType } from "../../../types/quiz";
+import type { Question, QuestionType } from "../../../types/quizBlueprint";
 
 type Props = {
   questions: Question[];

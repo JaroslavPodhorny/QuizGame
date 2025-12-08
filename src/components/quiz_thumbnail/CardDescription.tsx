@@ -15,7 +15,10 @@ export default function CardDescription({
   timeAgo,
 }: Props) {
   return (
-    <div className="absolute bottom-0 w-full backdrop-blur-md bg-primary/80 group-hover:bg-primary transition-colors duration-300 text-white rounded-b-4xl rounded-t-2xl py-3 md:py-4 px-4 sm:px-6 md:px-12">
+    <div
+      className="absolute bottom-0 left-0 right-0 backdrop-blur-xl rounded-b-4xl rounded-t-2xl py-3 px-6 md:py-6 md:px-12
+     bg-neutral-800/80 group-hover:bg-neutral-800 transition-colors duration-300"
+    >
       <h1 className="font-bold text-lg mb-2 leading-tight truncate ">
         {title}
       </h1>
@@ -60,7 +63,7 @@ interface CardInfoProps {
 
 function CardInfo({ duration, timeAgo }: CardInfoProps) {
   return (
-    <div className="flex items-center gap-2 md:gap-3 text-xs md:text-base opacity-70">
+    <div className="flex items-center gap-2 md:gap-3 text-base opacity-70">
       <div className="flex items-center gap-1.5 sm:gap-2">
         <img
           src={Watch}

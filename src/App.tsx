@@ -9,6 +9,7 @@ import QuizPopup from "./components/QuizPopup";
 import { AuthProvider } from "./contexts/AuthContext";
 //import ProtectedRoute from "./components/ProtectedRoute";
 import QuizInfo from "./components/quiz_info/QuizInfo";
+import QuizPlayer from "./components/quiz_player/quizPlayer";
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -25,16 +26,27 @@ function App() {
     <AuthProvider>
       <Router>
         <Header onCreateQuizClick={handleCreateQuizClick} />
-        <div className="pt-20 md:pt-25">
+        <div className="w-full pt-20 md:pt-25">
           <Routes>
             <Route path="/" element={<Discover />} />
             <Route path="/discover" element={<Discover />} />
             <Route
               path="/my-quizzes"
-              element={<div className="text-white">To be implemented</div>}
+              element={
+                <div className="text-white screen-minus-header bg-gray-900 flex items-center justify-center">
+                  To be implemented
+                </div>
+              }
             />
             <Route path="/create-quiz/:quizId" element={<QuizForm />} />
             <Route path="/:quizId" element={<QuizInfo />} />
+            <Route path="/play/:quizId" element={<QuizPlayer />} />
+            <Route
+              path="/host/:quizId"
+              element={
+                <div className="text-white">Quiz Host to be implemented</div>
+              }
+            />
           </Routes>
         </div>
 

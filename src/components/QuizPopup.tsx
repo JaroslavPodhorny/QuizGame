@@ -3,7 +3,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
-import { createEmptyQuiz } from "../types/quiz";
+import { createEmptyQuiz } from "../types/quizBlueprint";
 //import { getAuth } from "firebase/auth"; // Import getAuth
 
 function onCreateClick() {

@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getQuiz } from "../../firebase_services/QuizStore";
-import type { Quiz, QuizMetadata } from "../../types/quiz";
-import LoadingSpinner from "../LoadingSpinner";
+import type { Quiz } from "../../types/quizBlueprint";
 import QuestionPreview from "./QuestionPreview";
-import OverflowContainer from "../OverflowContainer";
+import AboutQuiz from "./AboutQuiz";
+import QuizActions from "./QuizActions";
+import LoadingPanel from "../loadingPanel";
 
 export default function QuizInfo() {
   const { quizId } = useParams();
@@ -22,12 +23,6 @@ export default function QuizInfo() {
       .finally(() => setLoading(false));
   }, [quizId]);
 
-  function formatDate(d: Date | string | undefined) {
-    if (!d) return "";
-    const date = typeof d === "string" ? new Date(d) : d;
-    return date.toLocaleString();
-  }
-
   const onPlay = () => {
     if (!quizId) return;
     navigate(`/play/${quizId}`);
@@ -43,46 +38,53 @@ export default function QuizInfo() {
   };
 
   if (loading) {
-    return (
-      <div
-        style={{ height: "h-screen" }}
-        className="flex items-center justify-center"
-      >
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingPanel />;
   }
 
   const hasQuestions =
     Array.isArray(quiz?.questions) && quiz.questions.length > 0;
 
   return (
-    <div className=" max-w-[1400px] mx-auto px-5 sm:px-10">
-      <div className="h-full text-white flex">
-        <OverflowContainer className="w-2/5 overflow-y-auto">
-          <div className=" p-6 flex flex-col">
-            <h1 className="text-3xl font-bold mb-2">{quiz?.title}</h1>
-            <p className="mb-4">{quiz?.description}</p>
-          </div>
-        </OverflowContainer>
+    <div className="w-full max-w-full mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="h-full text-white flex flex-col lg:flex-row">
+        <div className="w-full lg:w-2/5 bg-neutral-900 lg:overflow-y-auto lg:screen-minus-header">
+          <div className="p-4 sm:p-6 flex flex-col h-full">
+            <AboutQuiz quiz={quiz} />
 
-        <OverflowContainer className="w-3/5 overflow-y-auto">
-          <div className="p-6">
+            <QuizActions onPlay={onPlay} onHost={onHost} onShare={onShare} />
+
+            {hasQuestions && (
+              <div className="mt-auto pt-6 border-t border-neutral-700 border-dashed">
+                <button
+                  className="py-2 text-sm text-neutral-400 hover:text-neutral-300 transition"
+                  onClick={() => {
+                    alert("coming soon");
+                  }}
+                >
+                  Report mistake
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full lg:w-3/5 overflow-y-auto screen-minus-header">
+          <div className="p-4 sm:p-6">
             {!hasQuestions && (
               <div className="opacity-75">No questions in this quiz.</div>
             )}
 
             {hasQuestions && quiz && (
-              <ul className="space-y-3">
+              <ul className="space-y-4 sm:space-y-8">
                 {quiz.questions.map((q, idx) => (
-                  <li key={idx} className="">
+                  <li key={idx}>
                     <QuestionPreview question={q} idx={idx} />
                   </li>
                 ))}
               </ul>
             )}
           </div>
-        </OverflowContainer>
+        </div>
       </div>
     </div>
   );

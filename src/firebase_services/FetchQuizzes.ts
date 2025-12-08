@@ -1,4 +1,4 @@
-import type { QuizMetadata } from "../types/quiz";
+import type { QuizMetadata } from "../types/quizBlueprint";
 import { collection, orderBy, query, limit, getDocs, QueryDocumentSnapshot, startAfter } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 

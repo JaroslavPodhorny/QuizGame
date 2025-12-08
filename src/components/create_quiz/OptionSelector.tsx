@@ -1,6 +1,6 @@
 //vytvořeno pomocí AI
 
-import type { QuestionType } from "../../types/quiz";
+import type { QuestionType } from "../../types/quizBlueprint";
 
 interface OptionSelectorProps {
   options?: QuestionType[];

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { OptionSelector } from "./OptionSelector";
-import type { QuestionType } from "../../types/quiz";
+import type { QuestionType } from "../../types/quizBlueprint";
 
 //question types components
 import FillInTheBlank from "./question_types/FillInTheBlank";

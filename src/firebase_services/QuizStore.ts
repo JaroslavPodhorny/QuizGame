@@ -1,6 +1,6 @@
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
-import type { Quiz} from "../types/quiz";
+import type { Quiz} from "../types/quizBlueprint";
 
 async function saveQuiz(quizId: string | undefined, quizData: any): Promise<boolean> {
     if (!quizId) return false;

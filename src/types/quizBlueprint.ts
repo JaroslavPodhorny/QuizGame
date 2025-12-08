@@ -1,9 +1,5 @@
 export type QuestionType = "Multiple choice" | "True/False" | "Fill in the blank" | "Pinpoint";
 
-export interface MultipleChoiceAnswer {
-  text: string;
-}
-
 export interface Question {
   title: string;
   type: QuestionType;
@@ -25,17 +21,6 @@ export interface QuizMetadata {
 }
 export interface Quiz extends QuizMetadata {
   questions: Question[];
-}
-
-export function validateQuiz(quiz: Quiz): boolean {
-  if (!quiz.title || quiz.title.trim() === "") return false;
-  if (!quiz.questions || quiz.questions.length === 0) return false;
-  
-  return quiz.questions.every((question) => {
-    if (!question.title || question.title.trim() === "") return false;
-    if (!question.answers || question.answers.length === 0) return false;
-    return true;
-  });
 }
 
 export function createEmptyQuestion(type: QuestionType = "Multiple choice"): Question {

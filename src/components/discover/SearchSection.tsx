@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import DisappearingText from "../DisappearingText.tsx";
 import fetchQuizzes from "../../firebase_services/FetchQuizzes.ts";
 import { QueryDocumentSnapshot } from "firebase/firestore";
-import type { QuizMetadata } from "../../types/quiz.ts";
+import type { QuizMetadata } from "../../types/quizBlueprint.ts";
 
 export default function SearchSection() {
   const [scrollMode, setScrollMode] = useState(false); // used for disappearing text
@@ -19,7 +19,6 @@ export default function SearchSection() {
   const [hasMore, setHasMore] = useState(true);
   const requestIdRef = useRef(0);
 
-  //debounce
   useEffect(() => {
     const handle = setTimeout(() => setSearchValue(pendingSearchValue), 300);
     return () => clearTimeout(handle);
@@ -102,7 +101,7 @@ export default function SearchSection() {
     <>
       <DisappearingText isVisible={scrollMode} />
       <Filter handleChange={handleSearchChange} />
-      <div className="overflow-hidden ">
+      <div className=" ">
         <Feed
           handleScroll={handleFeedScroll}
           quizData={displayQuizData}

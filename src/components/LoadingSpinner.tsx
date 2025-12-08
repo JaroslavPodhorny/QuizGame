@@ -8,9 +8,11 @@ interface Props {
 export default function LoadingSpinner({ size = 24, className = "" }: Props) {
   const s = `${size}px`;
   return (
-    <div
-      className={`animate-spin rounded-full border-4 border-gray-300 border-t-blue-500 ${className}`}
-      style={{ width: s, height: s }}
-    />
+    <div className="flex items-center justify-center">
+      <div
+        className={`animate-spin rounded-full border-4 border-gray-300 border-t-blue-500 ${className}`}
+        style={{ width: s, height: s }}
+      />
+    </div>
   );
 }

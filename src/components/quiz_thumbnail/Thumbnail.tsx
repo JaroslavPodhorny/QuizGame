@@ -1,4 +1,4 @@
-import PlaceHolderImage from "../../assets/roman-statue.jpeg";
+import PlaceHolderImage from "../../assets/Roman_empire_map.png";
 import CardDescription from "./CardDescription";
 
 interface Props {
@@ -20,7 +20,7 @@ export default function Thumbnail({
 }: Props) {
   return (
     <div
-      className="group relative w-80 h-68 md:w-100 md:h-85 rounded-4xl shadow-lg hover:scale-105 transition-transform duration-300 overflow-hidden cursor-pointer"
+      className="group relative w-full aspect-4/3 rounded-4xl shadow-lg hover:scale-105 transition-transform duration-300 overflow-hidden cursor-pointer"
       onClick={onClick}
     >
       <div
