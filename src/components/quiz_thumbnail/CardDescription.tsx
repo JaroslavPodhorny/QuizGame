@@ -6,6 +6,7 @@ interface Props {
   duration: string;
   author: string;
   timeAgo: string;
+  description: string;
 }
 
 export default function CardDescription({
@@ -13,17 +14,20 @@ export default function CardDescription({
   duration,
   author,
   timeAgo,
+  description,
 }: Props) {
   return (
-    <div
-      className="absolute bottom-0 left-0 right-0 backdrop-blur-xl rounded-b-4xl rounded-t-2xl py-3 px-6 md:py-6 md:px-12
-     bg-neutral-800/80 group-hover:bg-neutral-800 transition-colors duration-300"
-    >
-      <h1 className="font-bold text-lg mb-2 leading-tight truncate ">
+    <div className="p-4 bg-neutral-900">
+      <h1 className="font-bold text-lg mb-2 leading-tight line-clamp-2">
         {title}
       </h1>
-      <CardInfo duration={duration} timeAgo={timeAgo} />
-      <CardCreator author={author} />
+      <p className="text-sm text-neutral-400 mb-3 line-clamp-2 leading-relaxed">
+        {description}
+      </p>
+      <div className="flex items-center justify-between">
+        <CardInfo duration={duration} timeAgo={timeAgo} />
+        <CardCreator author={author} />
+      </div>
     </div>
   );
 }
@@ -33,25 +37,12 @@ interface CardCreatorProps {
 }
 
 function CardCreator({ author }: CardCreatorProps) {
-  const MAX_AUTHOR_LENGTH = 11;
-  const displayAuthor =
-    author.length > MAX_AUTHOR_LENGTH
-      ? author.slice(0, MAX_AUTHOR_LENGTH) + "…"
-      : author;
-
   return (
-    <div className="flex items-center justify-end mt-1 opacity-70">
-      <span
-        className="mr-2 max-w-[60%] truncate text-xs sm:text-sm md:text-base"
-        title={author}
-      >
-        {displayAuthor}
+    <div className="flex items-center gap-2 text-sm text-neutral-400">
+      <img src={User} alt="Author Icon" className="w-5 h-5 invert opacity-70" />
+      <span className="truncate max-w-[100px]" title={author}>
+        {author}
       </span>
-      <img
-        src={User}
-        alt="Author Icon"
-        className="w-6 h-6 md:w-8 md:h-8 invert"
-      />
     </div>
   );
 }
@@ -63,15 +54,12 @@ interface CardInfoProps {
 
 function CardInfo({ duration, timeAgo }: CardInfoProps) {
   return (
-    <div className="flex items-center gap-2 md:gap-3 text-base opacity-70">
-      <div className="flex items-center gap-1.5 sm:gap-2">
-        <img
-          src={Watch}
-          alt="Watch Icon"
-          className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
-        />
+    <div className="flex items-center gap-3 text-sm text-neutral-400">
+      <div className="flex items-center gap-1.5">
+        <img src={Watch} alt="Watch Icon" className="w-4 h-4 opacity-70" />
         <span>{duration}</span>
       </div>
+      <span>•</span>
       <span>{timeAgo}</span>
     </div>
   );

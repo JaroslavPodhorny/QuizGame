@@ -45,10 +45,10 @@ export default function QuizInfo() {
     Array.isArray(quiz?.questions) && quiz.questions.length > 0;
 
   return (
-    <div className="w-full max-w-full mx-auto px-4 sm:px-6 lg:px-10">
-      <div className="h-full text-white flex flex-col lg:flex-row">
-        <div className="w-full lg:w-2/5 bg-neutral-900 lg:overflow-y-auto lg:screen-minus-header">
-          <div className="p-4 sm:p-6 flex flex-col h-full">
+    <div className="w-full max-w-full mx-auto px-10">
+      <div className="h-full text-white flex">
+        <div className="w-2/5 bg-neutral-900 overflow-y-auto screen-minus-header -ml-10 pl-10 mr-10">
+          <div className="p-6 flex flex-col h-full">
             <AboutQuiz quiz={quiz} />
 
             <QuizActions onPlay={onPlay} onHost={onHost} onShare={onShare} />
@@ -68,14 +68,14 @@ export default function QuizInfo() {
           </div>
         </div>
 
-        <div className="w-full lg:w-3/5 overflow-y-auto screen-minus-header">
-          <div className="p-4 sm:p-6">
+        <div className="w-3/5 overflow-y-auto screen-minus-header">
+          <div className="p-6">
             {!hasQuestions && (
               <div className="opacity-75">No questions in this quiz.</div>
             )}
 
             {hasQuestions && quiz && (
-              <ul className="space-y-4 sm:space-y-8">
+              <ul className="space-y-8">
                 {quiz.questions.map((q, idx) => (
                   <li key={idx}>
                     <QuestionPreview question={q} idx={idx} />

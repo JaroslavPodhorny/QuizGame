@@ -4,6 +4,7 @@ import { getQuiz } from "../../firebase_services/QuizStore";
 import PresentationController from "./PresentationController";
 import type { Quiz } from "../../types/quizBlueprint";
 import LoadingPanel from "../loadingPanel";
+import PresentControls from "./PresentControls";
 
 export default function QuizPlayer() {
   const { quizId } = useParams();
@@ -52,5 +53,9 @@ export default function QuizPlayer() {
     );
   }
 
-  return <PresentationController quiz={quiz} onExit={handleExit} />;
+  return (
+    <>
+      <PresentationController quiz={quiz} onExit={handleExit} />
+    </>
+  );
 }

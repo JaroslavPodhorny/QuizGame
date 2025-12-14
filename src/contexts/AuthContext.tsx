@@ -5,6 +5,9 @@ import {
   signOut as firebaseSignOut,
   GoogleAuthProvider,
   onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import type { User } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
@@ -13,6 +16,12 @@ interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signUpWithEmail: (
+    email: string,
+    password: string,
+    displayName: string
+  ) => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -53,6 +62,35 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  const signUpWithEmail = async (
+    email: string,
+    password: string,
+    displayName: string
+  ) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential.user) {
+        await updateProfile(userCredential.user, { displayName });
+      }
+    } catch (error) {
+      console.error("Error signing up with email:", error);
+      throw error;
+    }
+  };
+
+  const signInWithEmail = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error("Error signing in with email:", error);
+      throw error;
+    }
+  };
+
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
@@ -66,6 +104,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     currentUser,
     loading,
     signInWithGoogle,
+    signUpWithEmail,
+    signInWithEmail,
     signOut,
   };
 

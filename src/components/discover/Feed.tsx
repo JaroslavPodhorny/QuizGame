@@ -48,6 +48,7 @@ export default function Feed({ handleScroll, quizData, isLoading }: Props) {
             duration={quiz.duration ? quiz.duration : "10 mins"}
             author={quiz.createdBy || "Unknown"}
             timeAgo={getTimeAgo(quiz.createdAt)}
+            description={quiz.description || "No description available."}
             onClick={() => {
               navigate(`/${quiz.id}`);
             }}

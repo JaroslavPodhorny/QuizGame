@@ -4,16 +4,14 @@ import IntroScreen from "./screens/IntroScreen";
 import QuestionScreen from "./screens/QuestionScreen";
 import ResultsScreen from "./screens/ResultsScreen";
 import FinishedScreen from "./screens/FinishedScreen";
+import PresentControls from "./PresentControls";
 
-interface PresentationControllerProps {
+interface Props {
   quiz: Quiz;
   onExit: () => void;
 }
 
-export default function PresentationController({
-  quiz,
-  onExit,
-}: PresentationControllerProps) {
+export default function PresentationController({ quiz, onExit }: Props) {
   const {
     session,
     quizResult,
@@ -66,6 +64,8 @@ export default function PresentationController({
           onExit={onExit}
         />
       )}
+
+      <PresentControls clickBack={resetQuiz} clickForward={nextQuestion} />
     </div>
   );
 }

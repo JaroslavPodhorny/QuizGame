@@ -13,6 +13,7 @@ export interface QuizMetadata {
   description: string;
   duration: string;
   createdBy: string;
+  userId?: string; 
   createdAt: Date | string;
   thumbnail?: string;
   category?: string;
@@ -56,9 +57,10 @@ export function createEmptyQuiz(
   category: string = "General",
   keywords: string[] = [],
   isPublished: boolean = false,
-  questions: Question[] = [createEmptyQuestion()]
+  questions: Question[] = [createEmptyQuestion()],
+  userId?: string
 ): Quiz {
-  return {
+  const quiz: Quiz = {
     id,
     title,
     description,
@@ -71,4 +73,10 @@ export function createEmptyQuiz(
     isPublished,
     questions,
   };
+
+  if (userId) {
+    quiz.userId = userId;
+  }
+
+  return quiz;
 }

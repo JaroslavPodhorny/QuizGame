@@ -10,6 +10,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 //import ProtectedRoute from "./components/ProtectedRoute";
 import QuizInfo from "./components/quiz_info/QuizInfo";
 import QuizPlayer from "./components/quiz_player/quizPlayer";
+import AuthPage from "./components/auth/AuthPage";
+import UserProfile from "./components/profile/UserProfile";
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -30,6 +32,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Discover />} />
             <Route path="/discover" element={<Discover />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/profile/:userId" element={<UserProfile />} />
             <Route
               path="/my-quizzes"
               element={

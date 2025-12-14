@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import type { Quiz} from "../types/quizBlueprint";
 
@@ -25,4 +25,17 @@ async function getQuiz(quizId: string) : Promise<Quiz | null> {
     }
 }
 
-export { saveQuiz, getQuiz };
+async function deleteQuiz(quizId: string): Promise<boolean> {
+    try {
+        const ref = doc(collection(db, "quizzes"), quizId);
+        await deleteDoc(ref);
+        console.log("Quiz deleted successfully:", quizId);
+        return true;
+    } catch (error) {
+        console.error("Error deleting quiz:", error);
+        alert(`Delete error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        return false;
+    }
+}
+
+export { saveQuiz, getQuiz, deleteQuiz };

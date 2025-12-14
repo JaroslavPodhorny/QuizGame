@@ -15,7 +15,11 @@ export default function QuestionPreview({ question, idx }: Props) {
 
   return (
     <button
-      className="w-full flex flex-col text-left p-6 py-6 bg-neutral-900 hover:bg-gray-800 text-white rounded-3xl"
+      className={`w-full flex flex-col text-left p-6 py-6 bg-neutral-900 border transition-all text-white rounded-3xl ${
+        isExpanded
+          ? "border-neutral-700"
+          : "border-transparent hover:border-neutral-700"
+      }`}
       onClick={handleClick}
     >
       <div className="w-full flex justify-between items-center">

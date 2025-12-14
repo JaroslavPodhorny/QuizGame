@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase/firebaseConfig";
+import { db, storage } from "../firebase/firebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import { createEmptyQuiz } from "../types/quizBlueprint";
-//import { getAuth } from "firebase/auth"; // Import getAuth
+import { useAuth } from "../contexts/AuthContext";
 
 function onCreateClick() {
   return doc(collection(db, "quizzes"));
@@ -17,10 +18,23 @@ interface QuizPopupProps {
 export default function QuizPopup({ onCreated }: QuizPopupProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  //const auth = getAuth();
-  //const user = auth.currentUser;
+  const { currentUser } = useAuth();
+
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setThumbnailFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <form>
@@ -39,7 +53,24 @@ export default function QuizPopup({ onCreated }: QuizPopupProps) {
         onChange={(e) => setDescription(e.target.value)}
       />
       <div className="border-2 border-dashed border-primary rounded-3xl p-8 mb-4 text-center">
-        <p className="text-gray-500 italic">Upload thumbnail</p>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleThumbnailChange}
+          className="hidden"
+          id="thumbnail-upload"
+        />
+        <label htmlFor="thumbnail-upload" className="cursor-pointer">
+          {thumbnailPreview ? (
+            <img
+              src={thumbnailPreview}
+              alt="Thumbnail preview"
+              className="max-h-48 mx-auto rounded-lg"
+            />
+          ) : (
+            <p className="text-gray-500 italic">Upload thumbnail</p>
+          )}
+        </label>
       </div>
 
       <div className="flex justify-center">
@@ -49,11 +80,31 @@ export default function QuizPopup({ onCreated }: QuizPopupProps) {
             try {
               setLoading(true);
 
-              const docRef = onCreateClick(); // create new doc reference
+              const docRef = onCreateClick();
+
+              let thumbnailUrl = "";
+              if (thumbnailFile) {
+                const storageRef = ref(
+                  storage,
+                  `thumbnails/${docRef.id}/${thumbnailFile.name}`
+                );
+                await uploadBytes(storageRef, thumbnailFile);
+                thumbnailUrl = await getDownloadURL(storageRef);
+              }
+
               const newQuiz = createEmptyQuiz(
                 docRef.id,
                 title.trim() || undefined,
-                description.trim() || undefined
+                description.trim() || undefined,
+                undefined,
+                currentUser?.displayName || "Anonymous",
+                undefined,
+                thumbnailUrl,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                currentUser?.uid
               );
               await setDoc(docRef, newQuiz);
 

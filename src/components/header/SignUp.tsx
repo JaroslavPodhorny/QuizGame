@@ -1,15 +1,17 @@
 import user from "../../assets/user.png";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
-  const { currentUser, signInWithGoogle, signOut } = useAuth();
+  const { currentUser, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleAuthClick = async () => {
     try {
       if (currentUser) {
         await signOut();
       } else {
-        await signInWithGoogle();
+        navigate("/auth");
       }
     } catch (error) {
       console.error("Authentication error:", error);

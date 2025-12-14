@@ -24,9 +24,12 @@ export default function MultipleChoiceQuestion({
   ];
 
   const getButtonStyles = (index: number) => {
+    const baseColor = colors[index % colors.length].bg;
+    const baseHover = colors[index % colors.length].hover;
+
     if (!showCorrectAnswer) {
-      return `${colors[index % colors.length].bg} ${
-        !disabled ? colors[index % colors.length].hover : ""
+      return `${baseColor} ${
+        !disabled ? baseHover : ""
       } p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 ${
         !disabled ? "" : "opacity-75 cursor-not-allowed"
       } shadow-lg`;
@@ -35,14 +38,13 @@ export default function MultipleChoiceQuestion({
     const isCorrect = index === question.correctAnswerIndex;
     const isUserAnswer = index === userAnswerIndex;
 
+    // Keep original colors, just add outlines
     if (isCorrect) {
-      return "bg-green-500 p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 shadow-lg border-4 border-green-300";
+      return `${baseColor} p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 shadow-lg border-4 border-green-300`;
     } else if (isUserAnswer) {
-      return "bg-red-500 p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 shadow-lg border-4 border-red-300 opacity-75";
+      return `${baseColor} p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 shadow-lg border-4 border-red-300`;
     } else {
-      return `${
-        colors[index % colors.length].bg
-      } p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 opacity-50 shadow-lg`;
+      return `${baseColor} p-6 rounded-xl text-white font-bold text-xl flex flex-col items-center gap-3 opacity-50 shadow-lg`;
     }
   };
 
